@@ -1,7 +1,6 @@
 
 const { json, response } = require("express");
-const bcrypt = require("bcrypt");
-const maxAge = 3 * 24 * 60 * 60;
+
 
 
 
