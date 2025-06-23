@@ -1,7 +1,7 @@
 
 const { json, response } = require("express");
 
-
+const userModel=require("../Models/userModel")
 
 
 module.exports.submitApplication = async (req, res, next) => {
@@ -12,12 +12,13 @@ module.exports.submitApplication = async (req, res, next) => {
       return res.json({ message: "Already Submitted !", status: false });
     }
     const newUser = new userModel({
-      userName: username,
+      fullName: username,
       email: email,
-      password: password,
+      positionInterest: interest,
+      experienceYear:experience,
+      resumeFile:resume
     });
     const userDetails = await newUser.save();
-    // const token = createToken(userModel._id);
     return res.json({
       message: "Application Submitted Successfully",
       status: true,
