@@ -27,4 +27,4 @@ const resumeSchema = new mongoose.Schema({
 });
 
 
-  module.exports = new mongoose.model("user", userSchema);
+  module.exports = new mongoose.model("user", resumeSchema);
