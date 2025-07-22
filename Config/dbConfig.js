@@ -1,18 +1,16 @@
-const mongoose=require("mongoose")
-
-
+const mongoose = require("mongoose");
 
 module.exports = {
-
-    dbConnect: async () => {
-        try {
-            await mongoose.connect("mongodb://localhost:27017/dmythra").then(() => {
-                console.log("Database connected succefully")
-            })
-        } catch (err) {
-            console.log(err)
-        }
-    },
-
-
-}
+  dbConnection: async () => {
+    try {
+      await mongoose
+        .connect("mongodb://localhost:27017/EventSphere"
+)
+        .then(() => {
+          console.log("Database Connection successfully");
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  },
+};

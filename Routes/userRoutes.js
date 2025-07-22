@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
-const submitApplication=require("../Controllers/userControllers")
-const contactInfo=require("../Controllers/userControllers")
 
+// Controller functions
+const { submitApplication, contact } = require("../Controllers/userControllers");
 
-router.post("/submitApplication",submitApplication);
+// Enable CORS (if needed globally for all routes)
+router.use(cors());
 
-router.post("/contact",contactInfo)
-
+// Route to handle contact form submissions
+router.post("/contact",contact);
+router.post("/submitApplication",submitApplication)
 
 
 module.exports = router;

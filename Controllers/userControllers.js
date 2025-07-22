@@ -2,7 +2,8 @@
 const { json, response } = require("express");
 const path = require("path");
 const userModel=require("../Models/userModel")
-const contactInfo=require("../Models/userContactModel")
+const contactInfo=require("../Models/userContactModel");
+
 
 
 module.exports.submitApplication = async (req, res, next) => {
@@ -13,7 +14,7 @@ module.exports.submitApplication = async (req, res, next) => {
       return res.json({ message: "Already Submitted !", status: false });
     }
     const newUser = new userModel({
-      fullName: username,
+      fullName: name,
       email: email,
       positionInterest: interest,
       experienceYear:experience,
@@ -32,14 +33,17 @@ module.exports.submitApplication = async (req, res, next) => {
 
 
 module.exports.contact=async(req,res,next)=>{
-   const {name, email, message, } = req.body;
+  console.log(req.body,"56565656565656")
+   const {Username, email, message, } = req.body;
   try {
     const emailExist = await contactInfo.findOne({ email: email });
+    console.log(emailExist,"This email confirmation !!!!!!!!!!!!!!");
+    
     if (emailExist) {
       return res.json({ message: "Already Submitted !", status: false });
     }
     const newUser = new contactInfo({
-      Name: name,
+      Name: Username,
       email: email,
       message:message
     });
@@ -50,6 +54,6 @@ module.exports.contact=async(req,res,next)=>{
     });
   } catch (error) {
     console.log(error);
-    return res.json({ message: "Internal setver  errror gitnfkldfkj ", status: false });
+    return res.json({ message: "Internal setver  error ", status: false });
   }
 }

@@ -8,11 +8,18 @@ const bodyParser = require("body-parser");
 const userRoute=require("./Routes/userRoutes")
 
 
-dbConnection.dbConnect();
+dbConnection.dbConnection().then(() => {
+  app.listen(4000, () => {
+    console.log("🚀 Server is running on http://localhost:4000🚀");
+  });
+});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 
 app.use("/",userRoute);
 
-app.listen(4000, () => {
-  console.log("backend is running in the port of 4000");
-});
+// app.listen(4000, () => {
+//   console.log("backend is running in the port of 4000");
+// });
