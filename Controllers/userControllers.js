@@ -38,9 +38,8 @@ module.exports.contact=async(req,res,next)=>{
   try {
     const emailExist = await contactInfo.findOne({ email: email });
     console.log(emailExist,"This email confirmation !!!!!!!!!!!!!!");
-    
     if (emailExist) {
-      return res.json({ message: "Already Submitted !", status: false });
+      return res.json({ message: "Email alreadt exists !", status: false });
     }
     const newUser = new contactInfo({
       Name: Username,
