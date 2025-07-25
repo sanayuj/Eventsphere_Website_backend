@@ -15,11 +15,8 @@ dbConnection.dbConnection().then(() => {
 });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 
 app.use("/",userRoute);
 
-// app.listen(4000, () => {
-//   console.log("backend is running in the port of 4000");
-// });
