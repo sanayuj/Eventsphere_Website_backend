@@ -3,6 +3,8 @@ const path = require("path");
 const nodemailer = require("nodemailer");
 const userModel = require("../Models/userModel");
 const contactInfo = require("../Models/userContactModel");
+require("dotenv").config();
+
 
 module.exports.submitApplication = async (req, res, next) => {
   const extractImageUrl = (fullPath) => {
@@ -27,14 +29,14 @@ module.exports.submitApplication = async (req, res, next) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "sanayrinku@gmail.com",
-        pass: "dbvs gzjz njst vttd",
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
       },
     });
 
     const mailOptions = {
-      from: "sanayrinku@gmail.com",
-      to: "sanayuj2255@gmail.com",
+      from: process.env.GMAIL_USER,
+      to: process.env.ADMIN_EMAIL,
       subject: "New Talent Application Received for EventSphere",
       html: `
         <h3>New Application Submitted</h3>
@@ -78,6 +80,34 @@ module.exports.contact = async (req, res, next) => {
       message: message,
     });
     const userDetails = await newUser.save();
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+  from: process.env.GMAIL_USER,
+  to: process.env.ADMIN_EMAIL,
+  subject: "New Contact Message Received for EventSphere",
+  html: `
+    <h3>New Contact Message</h3>
+    <p><strong>Name:</strong> ${Username}</p>
+    <p><strong>Email:</strong> ${email}</p>
+    <p><strong>Message:</strong> ${message}</p>
+  `,
+};
+
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log("Error sending email:", err);
+      } else {
+        console.log("Email sent:", info.response);
+      }
+    });
+
     return res.json({
       message: "Application Submitted Successfully",
       status: true,
