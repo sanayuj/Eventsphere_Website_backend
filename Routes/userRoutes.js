@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const cors = require("cors");
+const createMulterInstance=require("../Middlewares/multer")
+const uploadResume=createMulterInstance("Resumes")
 
 // Controller functions
 const { submitApplication, contact } = require("../Controllers/userControllers");
@@ -10,7 +12,7 @@ router.use(cors());
 
 // Route to handle contact form submissions
 router.post("/contact",contact);
-router.post("/submitApplication",submitApplication)
+router.post("/submitApplication",uploadResume.single("resume"),submitApplication)
 
 
 module.exports = router;

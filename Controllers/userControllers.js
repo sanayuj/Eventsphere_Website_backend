@@ -7,8 +7,11 @@ const contactInfo=require("../Models/userContactModel");
 
 
 module.exports.submitApplication = async (req, res, next) => {
-  console.log(req.body.reume,"%%%%%%%%%----------------------------->>>>>>>>>#>>>>>>");
-  
+  const extractImageUrl = (fullPath) => {
+      const relativePath = path.relative("public/images", fullPath);
+      const imageUrl = relativePath.replace(/\\/g, "/");
+      return imageUrl;
+    };
   const {Username, email, PositionInterest,YearOfExp,resume } = req.body;
   try {
     const emailExist = await userModel.findOne({ email: email });
@@ -20,7 +23,7 @@ module.exports.submitApplication = async (req, res, next) => {
       email: email,
       positionInterest: PositionInterest,
       experienceYear:YearOfExp,
-      resumeFile:resume
+      resumeFile:extractImageUrl(req.file.path),
     });
     const userDetails = await newUser.save();
     return res.json({
@@ -35,7 +38,6 @@ module.exports.submitApplication = async (req, res, next) => {
 
 
 module.exports.contact=async(req,res,next)=>{
-  console.log(req.body,"56565656565656")
    const {Username, email, message, } = req.body;
   try {
     const emailExist = await contactInfo.findOne({ email: email });
