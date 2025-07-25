@@ -7,17 +7,19 @@ const contactInfo=require("../Models/userContactModel");
 
 
 module.exports.submitApplication = async (req, res, next) => {
-  const {name, email, interest,experience,resume } = req.body;
+  console.log(req.body.reume,"%%%%%%%%%----------------------------->>>>>>>>>#>>>>>>");
+  
+  const {Username, email, PositionInterest,YearOfExp,resume } = req.body;
   try {
     const emailExist = await userModel.findOne({ email: email });
     if (emailExist) {
       return res.json({ message: "Already Submitted !", status: false });
     }
     const newUser = new userModel({
-      fullName: name,
+      fullName: Username,
       email: email,
-      positionInterest: interest,
-      experienceYear:experience,
+      positionInterest: PositionInterest,
+      experienceYear:YearOfExp,
       resumeFile:resume
     });
     const userDetails = await newUser.save();
@@ -27,7 +29,7 @@ module.exports.submitApplication = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    return res.json({ message: "Internal setver  errror gitnfkldfkj ", status: false });
+    return res.json({ message: "Internal server  errror", status: false });
   }
 };
 
